@@ -1,0 +1,93 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:attr="data-theme=${theme}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comments</title>
+    <link th:href="@{/css/colors.css}" rel="stylesheet" />
+    <link th:href="@{/css/forms.css}" rel="stylesheet" />
+    <link th:href="@{/css/navbar.css}" rel="stylesheet" />
+    <link th:href="@{/css/modal.css}" rel="stylesheet" />
+    <link th:href="@{/css/comments.css}" rel="stylesheet" />
+    <script th:src="@{/js/comments.js}"></script>
+  </head>
+  <body>
+    <header th:replace="~{fragments :: header}"></header>
+
+    <main class="main-container">
+      <div class="container">
+        <h1>Comments</h1>
+
+        <div id="message" class="message hidden"></div>
+
+        <!-- Add Comment Form -->
+        <div class="comment-form">
+          <h2>Add a Comment</h2>
+          <form id="commentForm">
+            <input
+              type="hidden"
+              id="game"
+              name="game"
+              th:value="${session.gameName}"
+            />
+            <div class="form-group">
+              <label for="player">Your Name</label>
+              <input
+                th:if="${session.username == null}"
+                type="text"
+                id="player"
+                name="player"
+                required
+                placeholder="Enter your name"
+              />
+              <input
+                th:if="${session.username != null}"
+                type="text"
+                id="player"
+                name="player"
+                readonly
+                th:value="${session.username}"
+                th:placeholder="${session.username}"
+              />
+            </div>
+            <div class="form-group">
+              <label for="comment">Comment</label>
+              <textarea
+                id="comment"
+                name="comment"
+                required
+                placeholder="Write your comment..."
+              ></textarea>
+            </div>
+            <button type="submit" class="submit-btn" id="submitBtn">
+              Post Comment
+            </button>
+          </form>
+        </div>
+
+        <!-- Comments List -->
+        <div class="comments-list" id="commentsList">
+          <div th:each="c : ${comments}" class="comment-card">
+            <div class="comment-header">
+              <span class="comment-player" th:text="${c.player}">Player</span>
+              <span
+                class="comment-date"
+                th:text="${#temporals.format(c.commentedOn, 'MMM dd, yyyy HH:mm')}"
+                >Date</span
+              >
+            </div>
+            <p class="comment-text" th:text="${c.comment}">Comment text</p>
+          </div>
+
+          <div th:if="${#lists.isEmpty(comments)}" class="empty-state">
+            <p>No comments yet. Be the first to comment!</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

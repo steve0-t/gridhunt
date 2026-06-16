@@ -1,0 +1,7 @@
+.classpath
+.direnv/
+bin/
+target/
+.settings/
+.project
+design/

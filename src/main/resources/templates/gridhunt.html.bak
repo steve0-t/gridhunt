@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+  <head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gridhunt</title>
+    <link rel="stylesheet" href="/css/colors.css">
+    <link rel="stylesheet" href="/css/buttons.css">
+    <link rel="stylesheet" href="/css/gridhunt.css">
+    <script th:src="@{js/htmx.min.js}"></script>
+  </head>
+  <body layout:fragment="content">
+    <header>
+      <div id="homeBtn">
+        <a class="fancyButton" href="/">Home</a>
+      </div>
+    </header>
+    <div class="container">
+      <h1>Gridhunt</h1>
+    </div>
+    <div th:if="${gameAvailable}">
+
+      <div class="container">
+        <span id="userInfo">
+          Playing as:
+          <span th:text="${(username != null) ? username : 'unknown'}"></span>
+        </span>
+      </div>
+
+      <div class="gameLayout" th:fragment="gameFragment">
+
+        <div class="gameHeader">
+          <span id="gameInfo">
+            Game state:
+            <span th:text="${gamestate}"></span>
+          </span>
+
+          <div class="hints" th:utext="${hints}"></div>
+        </div>
+
+        <div class="gameBody">
+          <div class="gridhunt-field">
+            <ul class="grid"
+                th:style="'grid-template-columns: repeat(' + ${gameMap.getWidth()} + ', 40px)'">
+                <!-- https://softwareengineering.stackexchange.com/questions/212808/treating-a-1d-data-structure-as-2d-grid -->
+                <li class="cell" th:each="i : ${#numbers.sequence(0,
+                                              gameMap.getHeight() * gameMap.getWidth() - 1)}"
+                                th:with="x=${i % gameMap.getWidth()},
+                                        y=${i / gameMap.getWidth()},
+                                        tile=${gameMap.getTile(x, y)}"
+                                th:classappend="${tile.isExplored()} ? 'visible' : 'hidden'">
+                      <span th:text="${tile.renderTile(renderMode)}"></span>
+                  </li>
+              </ul>
+          </div>
+
+
+          <div class="gameSidebar">
+            <div th:if="${gamestate == 'FAILED'}">
+              <h1>YOU LOST</h1>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div th:if="${gamestate != 'FAILED'}" id="gameControls">
+      <button class="paperBtn" hx-get="/gridhunt/move/WEST" hx-target=".gameLayout" hx-swap="innerHtml">LEFT</button>
+      <button class="paperBtn" hx-get="/gridhunt/move/SOUTH" hx-target=".gameLayout" hx-swap="innerHtml">DOWN</button>
+      <button class="paperBtn" hx-get="/gridhunt/move/NORTH" hx-target=".gameLayout" hx-swap="innerHtml">UP</button>
+      <button class="paperBtn" hx-get="/gridhunt/move/EAST" hx-target=".gameLayout" hx-swap="innerHtml">RIGHT</button>
+      <button id="visBtn" class="paperBtn" hx-get="/gridhunt/toggleView" hx-target=".gameLayout" hx-swap="innerHtml">Toggle visibility</button>
+    </div>
+
+    <div class="container" id="newGameBtn">
+      <button class="fancyButton" onclick="return confirm('Start new game?')" hx-get="/gridhunt/new" hx-target=".gameLayout" hx-swap="outerHtml">New Game</button>
+    </div>
+
+    <div th:each="diff : ${diffs}" th:attr="id=${'infoModal' + diff.toString()}" style="display: none;">
+      <div>
+        <h3>Difficulties</h3>
+        <p><span th:text="${diff.toString()}"></span></p>
+        <button th:attr="onclick=|hideModal('infoModal' + ${diff.toString()})|">Close</button>
+      </div>
+    </div>
+
+  </body>
+</html>

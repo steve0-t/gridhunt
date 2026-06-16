@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <title>Change password</title>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/login.css">
+  </head>
+  <body>
+    <div id="authPrompt">
+      <form class="card" th:action="@{/change}" method="post">
+        <p class="signup">Change password</p>
+        <div class="inputBox1">
+          <input type="text" name="username" required="required">
+          <span>Username</span>
+        </div>
+        <div class="inputBox">
+          <input type="password" name="newPassword" required="required">
+          <span>New password</span>
+        </div>
+        <div class="inputBox">
+          <input type="password" name="repeatPassword" required="required">
+          <span>Repeat password</span>
+        </div>
+        <button class="enter" type="submit">Change password</button>
+      </form>
+    </div>
+    <span th:if="${param.no_match}">
+      <p>PROVIDED PASSWORDS DO NOT MATCH</p>
+    </span>
+    <span th:if="${param.error}">
+      <p>ERROR OCCURED</p>
+    </span>
+  </body>
+</html>

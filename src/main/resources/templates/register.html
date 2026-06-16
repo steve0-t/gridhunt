@@ -1,0 +1,86 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:attr="data-theme=${theme}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link th:href="@{/css/colors.css}" rel="stylesheet" />
+    <link th:href="@{/css/forms.css}" rel="stylesheet" />
+    <link th:href="@{/css/navbar.css}" rel="stylesheet" />
+    <link th:href="@{/css/modal.css}" rel="stylesheet" />
+    <link th:href="@{/css/login.css}" rel="stylesheet" />
+  </head>
+  <body>
+    <header th:replace="~{fragments :: header}"></header>
+
+    <main class="main-container">
+      <div th:if="${session.username == null}">
+        <div id="authPrompt">
+          <form class="card" th:action="@{/register}" method="post">
+            <p class="signup">Register</p>
+            <div class="inputBox1">
+              <input type="text" name="username" required="required" />
+              <span>Username</span>
+            </div>
+            <div class="inputBox">
+              <input type="password" name="password" required="required" />
+              <span>Password</span>
+            </div>
+            <div class="inputBox">
+              <input
+                type="password"
+                name="repeatedPassword"
+                required="required"
+              />
+              <span>Repeat password</span>
+            </div>
+            <button class="enter" type="submit">Register</button>
+          </form>
+          <div th:if="${param.mismatch_password}">
+            <div class="error-msg">
+              <p>Entered passwords do not match</p>
+            </div>
+          </div>
+          <div th:if="${param.error}">
+            <div class="error-msg">
+              <p>There already exists a user with this username.</p>
+              <a href="/login">Log in?</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        th:if="${session.username != null}"
+        style="
+          display: flex;
+          color: white;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <h1>
+          <p>
+            Already logged in as: <span th:text="${session.username}"> </span>
+          </p>
+          <p>
+            Please
+            <span
+              ><a style="color: var(--accent)" th:href="@{/logout}"
+                >log out</a
+              ></span
+            >
+            first
+          </p>
+        </h1>
+      </div>
+    </main>
+
+    <footer th:replace="~{fragments :: footer}"></footer>
+
+    <div th:replace="~{fragments :: themeModal}"></div>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:attr="data-theme=${theme}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link th:href="@{/css/colors.css}" rel="stylesheet" />
+    <link th:href="@{/css/forms.css}" rel="stylesheet" />
+    <link th:href="@{/css/navbar.css}" rel="stylesheet" />
+    <link th:href="@{/css/modal.css}" rel="stylesheet" />
+    <link th:href="@{/css/login.css}" rel="stylesheet" />
+  </head>
+  <body>
+    <header th:replace="~{fragments :: header}"></header>
+
+    <main class="main-container">
+      <div th:if="${session.username == null}">
+        <div id="authPrompt">
+          <form class="card" th:action="@{/login}" method="post">
+            <p class="signup">Log in</p>
+            <div class="inputBox1">
+              <input type="text" name="username" required="required" />
+              <span>Username</span>
+            </div>
+            <div class="inputBox">
+              <input type="password" name="password" required="required" />
+              <span>Password</span>
+            </div>
+            <button class="enter" type="submit">Log in</button>
+          </form>
+          <span th:if="${param.wrong_password}">
+            <div class="error-msg">
+              wrong password
+              <a href="/change">Forgot password?</a>
+            </div>
+          </span>
+          <span th:if="${param.not_found}">
+            <div class="error-msg">
+              not found
+              <a href="/register">Register?</a>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div
+        th:if="${session.username != null}"
+        style="
+          display: flex;
+          color: white;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <h1>
+          <p>
+            Already logged in as: <span th:text="${session.username}"> </span>
+          </p>
+          <p>
+            Please
+            <span
+              ><a style="color: var(--accent)" th:href="@{/logout}"
+                >log out</a
+              ></span
+            >
+            first
+          </p>
+        </h1>
+      </div>
+    </main>
+    <footer th:replace="~{fragments :: footer}"></footer>
+    <div th:replace="~{fragments :: themeModal}"></div>
+  </body>
+</html>

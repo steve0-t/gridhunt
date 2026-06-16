@@ -1,0 +1,252 @@
+/* Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  overflow: hidden;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+nav ul {
+  display: flex;
+  list-style-type: none;
+  gap: 15px;
+}
+
+.nav-btn {
+  width: 115px;
+  height: 55px;
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.nav-btn rect {
+  stroke: var(--color-fg);
+}
+
+.nav-btn text {
+  text-decoration: none;
+  fill: var(--color-fg);
+}
+
+.nav-btn:hover rect {
+  stroke: var(--color-primary);
+}
+
+.nav-btn:hover text {
+  fill: var(--color-primary);
+}
+
+/* Grid Background */
+.grid-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Corner Brackets */
+.corner-bracket {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  color: var(--color-primary);
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.corner-bracket.top-left {
+  top: 24px;
+  left: 24px;
+}
+
+.corner-bracket.top-right {
+  top: 24px;
+  right: 24px;
+}
+
+.corner-bracket.bottom-left {
+  bottom: 24px;
+  left: 24px;
+}
+
+.corner-bracket.bottom-right {
+  bottom: 24px;
+  right: 24px;
+}
+
+/* Main Content */
+.main-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+/* Crosshair */
+.crosshair {
+  position: absolute;
+  width: min(500px, 80vw);
+  height: min(500px, 80vw);
+  color: var(--color-primary);
+  opacity: 0.15;
+  animation: spin 60s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hero Content */
+.hero-content {
+  position: relative;
+  z-index: 20;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Morphing Text */
+.subtitle {
+  font-size: clamp(0.875rem, 2vw, 1.125rem);
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--color-primary);
+  font-weight: 500;
+  min-height: 1.5em;
+  transition:
+    opacity 0.3s ease,
+    filter 0.3s ease;
+}
+
+.subtitle.morphing {
+  opacity: 0;
+  filter: blur(8px);
+}
+
+/* Title */
+.title {
+  font-size: clamp(3.5rem, 15vw, 10rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.title-grid {
+  color: var(--color-fg);
+}
+
+.title-hunt {
+  color: var(--color-primary);
+}
+
+/* Tagline */
+.tagline {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: var(--color-muted);
+  max-width: 400px;
+  text-wrap: balance;
+}
+
+#cta-frame {
+  width: 150px;
+  height: 90px;
+  z-index: 1;
+}
+
+#cta-frame text {
+  font-weight: bold;
+  font-size: 32px;
+  fill: var(--color-fg);
+}
+
+#cta-frame path {
+  stroke: var(--color-fg);
+}
+
+#cta-frame:hover path {
+  stroke: var(--color-primary);
+}
+
+#cta-frame:hover text {
+  fill: var(--color-primary);
+}
+
+/* Highlight cells in grid */
+.highlight-cell {
+  fill: var(--color-primary);
+  opacity: 0;
+  animation: pulse 2s ease-in-out forwards;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.15;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .corner-bracket {
+    width: 40px;
+    height: 40px;
+  }
+
+  .corner-bracket.top-left,
+  .corner-bracket.top-right {
+    top: 16px;
+  }
+
+  .corner-bracket.bottom-left,
+  .corner-bracket.bottom-right {
+    bottom: 16px;
+  }
+
+  .corner-bracket.top-left,
+  .corner-bracket.bottom-left {
+    left: 16px;
+  }
+
+  .corner-bracket.top-right,
+  .corner-bracket.bottom-right {
+    right: 16px;
+  }
+}

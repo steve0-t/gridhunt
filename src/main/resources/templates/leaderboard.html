@@ -1,0 +1,83 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  th:attr="data-theme=${theme}"
+  layout:decorate="~{layout.html}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard</title>
+    <link rel="stylesheet" th:href="@{/css/colors.css}" />
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+    <link rel="stylesheet" th:href="@{/css/modal.css}" />
+    <link rel="stylesheet" th:href="@{/css/leaderboard.css}" />
+  </head>
+  <body>
+    <header th:replace="~{fragments :: header}"></header>
+
+    <main layout:fragment="content">
+      <div class="leaderboard-container">
+        <div class="leaderboard-header">
+          <h1 class="leaderboard-title">Leaderboard</h1>
+        </div>
+
+        <!-- Leaderboard Table -->
+        <table
+          class="leaderboard-table"
+          th:if="${scores != null and !scores.isEmpty()}"
+        >
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Player</th>
+              <th>Score</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- https://www.baeldung.com/dates-in-thymeleaf#1-format-dates -->
+            <tr th:each="score, iterStat : ${scores}">
+              <td
+                class="rank-cell"
+                th:classappend="${iterStat.index < 3 ? 'rank-' + (iterStat.index + 1) : ''}"
+              >
+                <span th:if="${iterStat.index == 0}">🥇</span>
+                <span th:if="${iterStat.index == 1}">🥈</span>
+                <span th:if="${iterStat.index == 2}">🥉</span>
+                <span
+                  th:unless="${iterStat.index < 3}"
+                  th:text="${iterStat.index + 1}"
+                ></span>
+              </td>
+              <td
+                class="player-name"
+                th:text="${score.getPlayer() != null ? score.getPlayer() : 'Anonymous'}"
+              >
+                <a> </a>
+              </td>
+              <td class="score-cell" th:text="${score.getPoints()}">0</td>
+              <td
+                th:text="${score.getPlayedOn() != null ? #dates.format(score.getPlayedOn(), 'dd-MMM-yyyy') : '-'}"
+              >
+                -
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Empty State -->
+        <div class="empty-state" th:if="${scores == null or scores.isEmpty()}">
+          <p>No scores yet!</p>
+          <span>Be the first to set a high score.</span>
+        </div>
+      </div>
+    </main>
+
+    <footer th:replace="~{fragments :: footer}"></footer>
+
+    <div th:replace="~{fragments :: themeModal}"></div>
+  </body>
+</html>

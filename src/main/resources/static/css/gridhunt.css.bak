@@ -1,0 +1,138 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* Page layout */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header stays on top */
+header {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 10px;
+}
+
+#homeBtn {
+    padding: 15px;
+}
+
+header a {
+  text-decoration: none;
+  padding: 2px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gameHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gameBody {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.gridhunt-field {
+  padding: 15px 5px;
+}
+
+.gameSidebar {
+  width: 150px;
+}
+
+/* .gameLayout { */
+  /* display: flex; */
+  /* align-items: flex-start; */
+/* } */
+
+/* .hints { */
+  /* width: 150px; */
+/* } */
+
+/* .gameSidebar { */
+  /* width: 150px; */
+/* } */
+
+/* .gridhunt-field { */
+  /* padding: 15px 5px; */
+  /* min-width: 300px; */
+  /* letter-spacing: 5px; */
+/* } */
+
+/* #gameControls { */
+    /* display: grid; */
+    /* grid-template-columns: repeat(2, 100px); */
+    /* gap: 10px; */
+/* } */
+
+/* #visBtn { */
+  /* position: relative; */
+  /* transform: translateX(55px); */
+/* } */
+
+#gameControls button {
+    color: var(--color-fg);
+}
+
+#newGameBtn {
+    display: flex;
+    align-items: center;
+}
+
+#newGameBtn button:hover {
+    cursor: pointer;
+}
+
+#newGameBtn a {
+    text-decoration: none;
+    color: var(--color-fg);
+}
+
+#gameInfo,
+#userInfo {
+    font-size: 16px;
+    font-weight: 600;
+    border: 2px solid var(--color-primary);
+    margin-bottom: 5px;
+    outline-offset: 5px;
+    padding: 5px;
+}
+
+.grid {
+    display: grid;
+    width: max-content;
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+  list-style: none;
+  background-color: var(--color-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--color-primary-muted);
+  border-radius: 5px;
+  gap: 9px
+}
+
+.cell span {
+}

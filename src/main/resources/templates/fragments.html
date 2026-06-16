@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Header -->
+<header th:fragment="header">
+  <!-- Navbar -->
+  <nav th:fragment="navbar">
+    <nav class="navbar">
+      <a th:href="@{/}" class="nav-link">
+        <div class="logo">
+          <div class="logo-icon">
+            <!-- <span></span><span></span><span></span><span></span> -->
+          </div>
+          Gridhunt
+        </div>
+      </a>
+
+      <div class="nav-links">
+        <a th:href="@{/}" class="nav-link">Home</a>
+        <a th:href="@{/gridhunt}" class="nav-link">Play</a>
+        <a th:href="@{/leaderboard}" class="nav-link">Leaderboard</a>
+        <a th:href="@{/rating}" class="nav-link">Game rating</a>
+        <a th:href="@{/comments}" class="nav-link">Comments</a>
+        <a th:href="@{/login}" class="nav-link">Sign In</a>
+        <a th:href="@{/register}" class="nav-link">Register</a>
+      </div>
+
+      <div class="nav-right">
+        <button class="customize-btn" id="openModalBtn"
+                onclick="document.getElementById('theme-modal').classList.add('active');">
+          <svg
+            width="16"
+            height="16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="12" cy="12" r="3"></circle>
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+            ></path>
+          </svg>
+          Theme
+        </button>
+        <div th:if="${session.username != null}">
+          <div class="profile-container">
+            <button
+              id="profileBtn"
+              class="profile-btn"
+              title="User Profile"
+              onclick="
+                const menu = document.getElementById('dropdownMenu');
+                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+              "
+              th:text="${session.username.charAt(0)}"
+            >
+            <!-- <span th:text="${session.username.charAt(0)}"></span> -->
+            </button>
+
+            <div id="dropdownMenu" class="dropdown-menu">
+              <a th:text="${session.username}" style="cursor: default;"></a>
+              <a th:href=@{/settings}>Settings</a>
+              <a th:href="@{/logout}"
+              onclick=""
+              >
+              Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </nav>
+</header>
+
+<!-- Footer -->
+<footer th:fragment="footer"></footer>
+
+<!-- theme modal -->
+<div th:fragment="themeModal">
+    <div id="theme-modal" class="modal-overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 class="modal-title">Choose Theme</h2>
+          <button class="modal-close" id="closeThemeModal"
+          onclick="document.getElementById('theme-modal').classList.remove('active');">&times;</button>
+        </div>
+        <div class="theme-grid">
+          <div class="theme-option selected" data-theme="default">
+            <div class="theme-preview preview-default">
+              <span></span><span></span><span></span>
+            </div>
+            <span>Default</span>
+          </div>
+          <div class="theme-option" data-theme="forest">
+            <div class="theme-preview preview-forest">
+              <span></span><span></span><span></span>
+            </div>
+            <span>Forest</span>
+          </div>
+          <div class="theme-option" data-theme="ocean">
+            <div class="theme-preview preview-ocean">
+              <span></span><span></span><span></span>
+            </div>
+            <span>Ocean</span>
+          </div>
+          <div class="theme-option" data-theme="sunset">
+            <div class="theme-preview preview-sunset">
+              <span></span><span></span><span></span>
+            </div>
+            <span>Sunset</span>
+          </div>
+          <div class="theme-option" data-theme="light">
+            <div class="theme-preview preview-light">
+              <span></span><span></span><span></span>
+            </div>
+            <span>Light</span>
+          </div>
+          <div class="theme-option" data-theme="random1">
+            <div class="theme-preview preview-random1">
+              <span></span><span></span><span></span>
+            </div>
+            <span>Radnom 1</span>
+          </div>
+          <div class="theme-option" data-theme="ice">
+            <div class="theme-preview preview-ice">
+              <span></span><span></span><span></span>
+            </div>
+            <span>Ice</span>
+          </div>
+          <div class="theme-option" data-theme="sakura">
+            <div class="theme-preview preview-sakura">
+              <span></span><span></span><span></span>
+            </div>
+            <span>Sakura</span>
+          </div>
+          <div class="theme-option" data-theme="neon">
+            <div class="theme-preview preview-neon">
+              <span></span><span></span><span></span>
+            </div>
+            <span>Neon</span>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+</html>

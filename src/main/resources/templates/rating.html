@@ -1,0 +1,96 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:attr="data-theme=${theme}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rate Game</title>
+    <link th:href="@{/css/colors.css}" rel="stylesheet" />
+    <link th:href="@{/css/navbar.css}" rel="stylesheet" />
+    <link th:href="@{/css/modal.css}" rel="stylesheet" />
+    <link th:href="@{/css/rating.css}" rel="stylesheet" />
+    <script th:src="@{/js/rating.js}"></script>
+  </head>
+  <body>
+    <header th:replace="~{fragments :: header}"></header>
+
+    <main class="main-container">
+      <div class="container">
+        <h1>Rate This Game</h1>
+
+        <div id="message" class="message hidden"></div>
+
+        <!-- Average Rating Display -->
+        <div class="average-rating">
+          <h2>Average Rating</h2>
+          <div class="average-stars" id="averageStars">
+            <!-- Stars rendered by JS -->
+          </div>
+          <div class="average-value">
+            <span th:text="${averageRating}">0</span> / 5
+          </div>
+        </div>
+
+        <!-- Rating Form -->
+        <div class="rating-form">
+          <h2>Submit Your Rating</h2>
+          <form id="ratingForm">
+            <input
+              type="hidden"
+              id="game"
+              name=""
+              th:value="${session.gameName}"
+            />
+            <input
+              type="hidden"
+              id="loggedPlayer"
+              name=""
+              th:value="${session.username}"
+            />
+            <input type="hidden" id="rating" name="rating" value="0" />
+
+            <div class="form-group">
+              <label for="player">Your Name</label>
+              <input
+                th:if="${session.username == null}"
+                type="text"
+                id="player"
+                name="player"
+                required
+                placeholder="Enter your name"
+              />
+              <input
+                th:if="${session.username != null}"
+                type="text"
+                id="player"
+                name="player"
+                readonly
+                th:value="${session.username}"
+                th:placeholder="${session.username}"
+              />
+            </div>
+
+            <div class="star-rating" id="starRating">
+              <span class="star" data-value="1">&#9733;</span>
+              <span class="star" data-value="2">&#9733;</span>
+              <span class="star" data-value="3">&#9733;</span>
+              <span class="star" data-value="4">&#9733;</span>
+              <span class="star" data-value="5">&#9733;</span>
+            </div>
+
+            <div class="rating-value" id="ratingLabel">
+              Click a star to rate
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+              Submit Rating
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,157 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg-primary, #1a1a2e);
+  color: var(--text-primary, #eee);
+  min-height: 100vh;
+}
+
+.container {
+  padding-top: 10px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--accent, #00d4ff);
+}
+
+/* Comment Form */
+.comment-form {
+  background: var(--bg-secondary, #16213e);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border, #333);
+}
+
+.comment-form h2 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary, #aaa);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border, #333);
+  border-radius: 8px;
+  background: var(--bg-primary, #1a1a2e);
+  color: var(--text-primary, #eee);
+  font-size: 1rem;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent, #00d4ff);
+}
+
+.submit-btn {
+  background: var(--accent, #00d4ff);
+  color: var(--bg-primary, #1a1a2e);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.submit-btn:hover {
+  opacity: 0.9;
+}
+
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Comments List */
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comment-card {
+  background: var(--bg-secondary, #16213e);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border, #333);
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.comment-player {
+  font-weight: 600;
+  color: var(--accent, #00d4ff);
+}
+
+.comment-date {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #aaa);
+}
+
+.comment-text {
+  line-height: 1.6;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-secondary, #aaa);
+}
+
+/* Message */
+.message {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.message.success {
+  background: rgba(0, 200, 100, 0.2);
+  color: #00c864;
+  border: 1px solid #00c864;
+}
+
+.message.error {
+  background: rgba(255, 100, 100, 0.2);
+  color: #ff6464;
+  border: 1px solid #ff6464;
+}
+
+.hidden {
+  display: none;
+}

@@ -1,0 +1,20 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  th:attr="data-theme=${session.theme}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard</title>
+    <link th:href="@{/css/gridhunt.css}" rel="stylesheet" />
+    <link th:href="@{/css/colors.css}" rel="stylesheet" />
+    <link th:href="@{/css/navbar.css}" rel="stylesheet" />
+  </head>
+  <body>
+    <header th:replace="fragments :: header"></header>
+    <main></main>
+  </body>
+</html>

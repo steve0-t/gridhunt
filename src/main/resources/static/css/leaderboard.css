@@ -1,0 +1,111 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Leaderboard Styles */
+.leaderboard-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+}
+
+.leaderboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.leaderboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-secondary, #1a1a2e);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--accent-hover);
+}
+
+.leaderboard-table thead {
+  background: var(--accent);
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  color: var(--text-primary);
+}
+
+.leaderboard-table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: #fff;
+}
+
+.leaderboard-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s ease;
+}
+
+.leaderboard-table tbody tr:hover {
+  background: var(--accent-hover);
+}
+
+.leaderboard-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.rank-cell {
+  font-weight: bold;
+  width: 60px;
+}
+
+.rank-1 {
+  color: #ffd700;
+}
+.rank-2 {
+  color: #c0c0c0;
+}
+.rank-3 {
+  color: #cd7f32;
+}
+
+.player-name {
+  font-weight: 500;
+}
+
+.score-cell {
+  font-family: monospace;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--accent-color, #00d9ff);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-secondary, #a0a0a0);
+}
+
+.empty-state p {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
