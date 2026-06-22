@@ -173,6 +173,7 @@
 
     <button
       id="nextLevelBtn"
+      th:if="${gameStatus != 'FAILED'}"
       class="action-btn"
       hx-get="/gridhunt/next"
       hx-target=".game-area"
@@ -221,10 +222,10 @@
       <div class="difficulty-options">
         <button
           class="difficulty-btn easy"
-          hx-get="/gridhunt/replay"
-          hx-target=".game-area"
-          hx-swap="outerHTML"
-          onclick="document.getElementById('gameLostModal').close()"
+          onclick="
+            document.getElementById('gameLostModal').close();
+            document.getElementById('difficultyModal').showModal();
+          "
         >
           Replay
         </button>
@@ -283,15 +284,15 @@
         >
           Exit
         </a>
-        <button
-          class="difficulty-btn medium"
-          hx-get="/gridhunt/next"
-          hx-target=".game-area"
-          hx-swap="outerHTML"
-          onclick="document.getElementById('gameWonModal').close()"
-        >
-          Next level
-        </button>
+          <button
+            class="difficulty-btn medium"
+            hx-get="/gridhunt/next"
+            hx-target=".game-area"
+            hx-swap="outerHTML"
+            onclick="document.getElementById('gameWonModal').close()"
+          >
+            Next level
+          </button>
       </div>
     </div>
   </dialog>

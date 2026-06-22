@@ -1,12 +1,10 @@
 package gamestudio.game.gridhunt.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gamestudio.game.gridhunt.core.actor.*;
-import sk.tuke.gamestudio.game.gridhunt.core.actor.*;
 import gamestudio.game.gridhunt.core.tile.HoleTile;
 import gamestudio.game.gridhunt.core.tile.Tile;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Scene {
   public Scene(int maxActors) {

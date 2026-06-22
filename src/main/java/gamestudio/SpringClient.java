@@ -1,14 +1,5 @@
 package gamestudio;
 
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.WebApplicationType;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.web.client.RestTemplate;
 import gamestudio.game.gridhunt.consoleui.ConsoleUI;
 import gamestudio.game.gridhunt.core.World;
 import gamestudio.service.CommentService;
@@ -21,12 +12,21 @@ import gamestudio.service.ScoreService;
 import gamestudio.service.ScoreServiceRestClient;
 import gamestudio.service.UserService;
 import gamestudio.service.UserServiceRestClient;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @Configuration
 @ComponentScan(
     excludeFilters =
-        @ComponentScan.Filter(type = FilterType.REGEX, pattern = "sk.tuke.gamestudio.server.*"))
+        @ComponentScan.Filter(type = FilterType.REGEX, pattern = "gamestudio.server.*"))
 public class SpringClient {
   public static void main(String[] args) {
     new SpringApplicationBuilder(SpringClient.class).web(WebApplicationType.NONE).run(args);

@@ -1,15 +1,9 @@
 package gamestudio.game.gridhunt.consoleui;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
-
-import gamestudio.game.gridhunt.core.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import gamestudio.entity.Comment;
 import gamestudio.entity.Rating;
 import gamestudio.entity.Score;
-import sk.tuke.gamestudio.game.gridhunt.core.*;
+import gamestudio.game.gridhunt.core.*;
 import gamestudio.game.gridhunt.core.tile.Tile;
 import gamestudio.service.CommentService;
 import gamestudio.service.CommentServiceJDBC;
@@ -17,6 +11,10 @@ import gamestudio.service.RatingService;
 import gamestudio.service.RatingServiceJDBC;
 import gamestudio.service.ScoreService;
 import gamestudio.service.ScoreServiceJDBC;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ConsoleUI {
   public ConsoleUI(World world) {
