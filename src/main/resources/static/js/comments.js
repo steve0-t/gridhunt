@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const list = document.getElementById("commentsList");
     if (comments.length === 0) {
       list.innerHTML =
-        '<div class="empty-state"><p>No comments yet. Be the first to comment!</p></div>';
+        '<div class="surface empty-state"><span class="empty-crosshair" aria-hidden="true"></span><h2>A blank page. For now.</h2><span>No notes yet. Be the first to share your hunt.</span></div>';
       return;
     }
     list.innerHTML = comments

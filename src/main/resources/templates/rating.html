@@ -1,96 +1,60 @@
 <!doctype html>
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  th:attr="data-theme=${theme}"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${theme}">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rate Game</title>
-    <link th:href="@{/css/colors.css}" rel="stylesheet" />
-    <link th:href="@{/css/navbar.css}" rel="stylesheet" />
-    <link th:href="@{/css/modal.css}" rel="stylesheet" />
-    <link th:href="@{/css/rating.css}" rel="stylesheet" />
-    <script th:src="@{/js/rating.js}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ratings / Gridhunt</title>
+    <th:block th:replace="~{fragments :: gameAssets}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/rating.css}" />
+    <script defer th:src="@{/js/rating.js}"></script>
   </head>
-  <body>
-    <header th:replace="~{fragments :: header}"></header>
-
-    <main class="main-container">
-      <div class="container">
-        <h1>Rate This Game</h1>
-
-        <div id="message" class="message hidden"></div>
-
-        <!-- Average Rating Display -->
-        <div class="average-rating">
-          <h2>Average Rating</h2>
-          <div class="average-stars" id="averageStars">
-            <!-- Stars rendered by JS -->
+  <body class="game-page">
+    <div th:replace="~{fragments :: gameBackground}"></div>
+    <header th:replace="~{fragments :: gameHeader}"></header>
+    <main class="page-main">
+      <div class="page-heading">
+        <p class="eyebrow">Your verdict / Ratings</p>
+        <h1 class="page-title">GAME<span class="accent">RATING</span></h1>
+        <p class="page-description">How was the hunt? Let the next hunter know.</p>
+      </div>
+      <div id="message" class="message hidden" role="status" aria-live="polite"></div>
+      <div class="ratings-layout">
+        <section class="surface average-rating" aria-labelledby="average-title">
+          <div class="section-heading"><h2 id="average-title">Community score</h2><span class="section-number">01</span></div>
+          <div class="rating-orbit">
+            <div class="average-value"><span th:text="${averageRating != null ? averageRating : 0}">0</span><small>out of 5</small></div>
           </div>
-          <div class="average-value">
-            <span th:text="${averageRating}">0</span> / 5
+          <div class="average-stars" id="averageStars" aria-hidden="true">
+            <span>★★★★★</span><span class="average-stars-fill">★★★★★</span>
           </div>
-        </div>
-
-        <!-- Rating Form -->
-        <div class="rating-form">
-          <h2>Submit Your Rating</h2>
+          <p class="rating-caption">Rated by the hunters who came before you.</p>
+        </section>
+        <section class="surface rating-form" aria-labelledby="rating-form-title">
+          <div class="section-heading"><h2 id="rating-form-title">Rate your experience</h2><span class="section-number">02</span></div>
           <form id="ratingForm">
-            <input
-              type="hidden"
-              id="game"
-              name=""
-              th:value="${session.gameName}"
-            />
-            <input
-              type="hidden"
-              id="loggedPlayer"
-              name=""
-              th:value="${session.username}"
-            />
+            <input type="hidden" id="game" name="game" th:value="${session.gameName != null ? session.gameName : 'Gridhunt'}" />
+            <input type="hidden" id="loggedPlayer" th:value="${session.username}" />
             <input type="hidden" id="rating" name="rating" value="0" />
-
             <div class="form-group">
-              <label for="player">Your Name</label>
-              <input
-                th:if="${session.username == null}"
-                type="text"
-                id="player"
-                name="player"
-                required
-                placeholder="Enter your name"
-              />
-              <input
-                th:if="${session.username != null}"
-                type="text"
-                id="player"
-                name="player"
-                readonly
-                th:value="${session.username}"
-                th:placeholder="${session.username}"
-              />
+              <label for="player">Hunter name</label>
+              <input th:if="${session.username == null}" type="text" id="player" name="player" required maxlength="64" placeholder="Your name" autocomplete="nickname" />
+              <input th:if="${session.username != null}" type="text" id="player" name="player" readonly th:value="${session.username}" />
             </div>
-
-            <div class="star-rating" id="starRating">
-              <span class="star" data-value="1">&#9733;</span>
-              <span class="star" data-value="2">&#9733;</span>
-              <span class="star" data-value="3">&#9733;</span>
-              <span class="star" data-value="4">&#9733;</span>
-              <span class="star" data-value="5">&#9733;</span>
+            <div class="star-rating" id="starRating" role="group" aria-label="Select a rating out of five">
+              <button type="button" class="star" data-value="1" aria-label="1 out of 5 stars" aria-pressed="false">★</button>
+              <button type="button" class="star" data-value="2" aria-label="2 out of 5 stars" aria-pressed="false">★</button>
+              <button type="button" class="star" data-value="3" aria-label="3 out of 5 stars" aria-pressed="false">★</button>
+              <button type="button" class="star" data-value="4" aria-label="4 out of 5 stars" aria-pressed="false">★</button>
+              <button type="button" class="star" data-value="5" aria-label="5 out of 5 stars" aria-pressed="false">★</button>
             </div>
-
-            <div class="rating-value" id="ratingLabel">
-              Click a star to rate
-            </div>
-
-            <button type="submit" class="submit-btn" id="submitBtn">
-              Submit Rating
-            </button>
+            <p class="rating-value" id="ratingLabel" aria-live="polite">Select a star to rate the game</p>
+            <button type="submit" class="submit-btn" id="submitBtn">Submit rating</button>
           </form>
-        </div>
+          <div class="your-rating" hidden>Your rating: <span>0</span> / 5</div>
+        </section>
       </div>
     </main>
+    <footer th:replace="~{fragments :: gameFooter}"></footer>
+    <dialog th:replace="~{fragments :: gameThemeModal}"></dialog>
   </body>
 </html>

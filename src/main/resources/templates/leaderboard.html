@@ -1,83 +1,49 @@
 <!doctype html>
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  th:attr="data-theme=${theme}"
-  layout:decorate="~{layout.html}"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${theme}">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Leaderboard</title>
-    <link rel="stylesheet" th:href="@{/css/colors.css}" />
-    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
-    <link rel="stylesheet" th:href="@{/css/modal.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Leaderboard / Gridhunt</title>
+    <th:block th:replace="~{fragments :: gameAssets}"></th:block>
     <link rel="stylesheet" th:href="@{/css/leaderboard.css}" />
   </head>
-  <body>
-    <header th:replace="~{fragments :: header}"></header>
-
-    <main layout:fragment="content">
-      <div class="leaderboard-container">
-        <div class="leaderboard-header">
-          <h1 class="leaderboard-title">Leaderboard</h1>
+  <body class="game-page">
+    <div th:replace="~{fragments :: gameBackground}"></div>
+    <header th:replace="~{fragments :: gameHeader}"></header>
+    <main class="page-main">
+      <div class="page-heading leaderboard-heading">
+        <div>
+          <p class="eyebrow">The hunters / Leaderboard</p>
+          <h1 class="page-title">LEADER<span class="accent">BOARD</span></h1>
+          <p class="page-description">The grid keeps score. See who made their mark.</p>
         </div>
-
-        <!-- Leaderboard Table -->
-        <table
-          class="leaderboard-table"
-          th:if="${scores != null and !scores.isEmpty()}"
-        >
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Player</th>
-              <th>Score</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- https://www.baeldung.com/dates-in-thymeleaf#1-format-dates -->
-            <tr th:each="score, iterStat : ${scores}">
-              <td
-                class="rank-cell"
-                th:classappend="${iterStat.index < 3 ? 'rank-' + (iterStat.index + 1) : ''}"
-              >
-                <span th:if="${iterStat.index == 0}">🥇</span>
-                <span th:if="${iterStat.index == 1}">🥈</span>
-                <span th:if="${iterStat.index == 2}">🥉</span>
-                <span
-                  th:unless="${iterStat.index < 3}"
-                  th:text="${iterStat.index + 1}"
-                ></span>
-              </td>
-              <td
-                class="player-name"
-                th:text="${score.getPlayer() != null ? score.getPlayer() : 'Anonymous'}"
-              >
-                <a> </a>
-              </td>
-              <td class="score-cell" th:text="${score.getPoints()}">0</td>
-              <td
-                th:text="${score.getPlayedOn() != null ? #dates.format(score.getPlayedOn(), 'dd-MMM-yyyy') : '-'}"
-              >
-                -
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- Empty State -->
-        <div class="empty-state" th:if="${scores == null or scores.isEmpty()}">
-          <p>No scores yet!</p>
-          <span>Be the first to set a high score.</span>
-        </div>
+        <a class="button button-primary" th:href="@{/gridhunt}">Start a hunt <span class="button-arrow" aria-hidden="true">↗</span></a>
       </div>
+      <section class="surface leaderboard-container" aria-labelledby="scores-title">
+        <div class="section-heading"><h2 id="scores-title">Top scores</h2><span class="eyebrow">Gridhunt</span></div>
+        <div class="table-scroll" th:if="${scores != null and !scores.isEmpty()}">
+          <table class="leaderboard-table">
+            <caption class="visually-hidden">Gridhunt scores, ordered from highest to lowest</caption>
+            <thead><tr><th scope="col">Rank</th><th scope="col">Hunter</th><th scope="col" class="score-column">Score</th><th scope="col">Date</th></tr></thead>
+            <tbody>
+              <tr th:each="score, iterStat : ${scores}" th:classappend="${iterStat.index < 3 ? 'rank-' + (iterStat.index + 1) : ''}">
+                <td class="rank-cell" th:text="${#numbers.formatInteger(iterStat.count, 2)}">01</td>
+                <td class="player-name" th:text="${score.getPlayer() != null ? score.getPlayer() : 'Anonymous'}">Hunter</td>
+                <td class="score-cell" th:text="${score.getPoints()}">0</td>
+                <td class="date-cell" th:text="${score.getPlayedOn() != null ? #dates.format(score.getPlayedOn(), 'dd MMM yyyy') : '—'}">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="empty-state" th:if="${scores == null or scores.isEmpty()}">
+          <span class="empty-crosshair" aria-hidden="true"></span>
+          <h2>The first spot is yours.</h2>
+          <span>No scores yet. Start a hunt and put your name on the board.</span>
+          <div><a class="button button-primary" th:href="@{/gridhunt}">Play Gridhunt <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </section>
     </main>
-
-    <footer th:replace="~{fragments :: footer}"></footer>
-
-    <div th:replace="~{fragments :: themeModal}"></div>
+    <footer th:replace="~{fragments :: gameFooter}"></footer>
+    <dialog th:replace="~{fragments :: gameThemeModal}"></dialog>
   </body>
 </html>

@@ -75,6 +75,79 @@
 <!-- Footer -->
 <footer th:fragment="footer"></footer>
 
+<!-- Shared presentation for the game and community pages. -->
+<th:block th:fragment="gameAssets">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/css/colors.css}" />
+  <link rel="stylesheet" th:href="@{/css/modal.css}" />
+  <link rel="stylesheet" th:href="@{/css/game-ui.css}" />
+  <script defer th:src="@{/js/game-ui.js}"></script>
+</th:block>
+
+<div th:fragment="gameBackground" class="game-background" aria-hidden="true">
+  <div class="background-grid"></div>
+  <span class="frame-corner top-left"></span>
+  <span class="frame-corner top-right"></span>
+  <span class="frame-corner bottom-left"></span>
+  <span class="frame-corner bottom-right"></span>
+</div>
+
+<header th:fragment="gameHeader" class="site-header">
+  <a class="site-brand" th:href="@{/}" aria-label="Gridhunt home">
+    <svg viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true">
+      <path d="M1 10V1h9M22 1h9v9M31 22v9h-9M10 31H1v-9M16 7v18M7 16h18" stroke="currentColor" stroke-width="1.5" />
+      <circle cx="16" cy="16" r="5" stroke="currentColor" />
+    </svg>
+    <span>GRID<span class="accent">HUNT</span></span>
+  </a>
+  <nav class="site-nav" aria-label="Game navigation">
+    <a th:href="@{/gridhunt}">Play</a>
+    <a th:href="@{/leaderboard}">Leaderboard</a>
+    <a th:href="@{/rating}">Ratings</a>
+    <a th:href="@{/comments}">Comments</a>
+  </nav>
+  <div class="site-account">
+    <a class="sign-in" th:if="${session.username == null}" th:href="@{/login}">Sign in <span aria-hidden="true">↗</span></a>
+    <details class="profile-menu" th:if="${session.username != null}">
+      <summary th:text="${session.username}">Hunter</summary>
+      <div class="profile-links">
+        <a th:href="@{/change}">Change password</a>
+        <a th:href="@{/logout}">Sign out</a>
+      </div>
+    </details>
+    <button class="theme-trigger" type="button" aria-label="Choose a color theme" onclick="document.getElementById('theme-modal').showModal()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <circle cx="12" cy="12" r="8" /><path d="M12 4v16" /><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+<footer th:fragment="gameFooter" class="site-footer">
+  <span>Navigate the grid. Find the hidden.</span>
+  <span>Gridhunt <span class="accent">/</span> Gamestudio</span>
+</footer>
+
+<dialog th:fragment="gameThemeModal" id="theme-modal" class="site-dialog" aria-labelledby="theme-title">
+  <div class="dialog-heading">
+    <div><p class="eyebrow">Make it yours</p><h2 id="theme-title">Choose a theme</h2></div>
+    <button class="dialog-close" type="button" aria-label="Close themes" onclick="document.getElementById('theme-modal').close()">×</button>
+  </div>
+  <div class="theme-grid">
+    <button type="button" class="theme-option" data-theme="default" aria-pressed="true"><span class="theme-preview preview-default" aria-hidden="true"><span></span><span></span><span></span></span>Default</button>
+    <button type="button" class="theme-option" data-theme="forest" aria-pressed="false"><span class="theme-preview preview-forest" aria-hidden="true"><span></span><span></span><span></span></span>Forest</button>
+    <button type="button" class="theme-option" data-theme="ocean" aria-pressed="false"><span class="theme-preview preview-ocean" aria-hidden="true"><span></span><span></span><span></span></span>Ocean</button>
+    <button type="button" class="theme-option" data-theme="sunset" aria-pressed="false"><span class="theme-preview preview-sunset" aria-hidden="true"><span></span><span></span><span></span></span>Sunset</button>
+    <button type="button" class="theme-option" data-theme="light" aria-pressed="false"><span class="theme-preview preview-light" aria-hidden="true"><span></span><span></span><span></span></span>Light</button>
+    <button type="button" class="theme-option" data-theme="random1" aria-pressed="false"><span class="theme-preview preview-random1" aria-hidden="true"><span></span><span></span><span></span></span>Random</button>
+    <button type="button" class="theme-option" data-theme="ice" aria-pressed="false"><span class="theme-preview preview-ice" aria-hidden="true"><span></span><span></span><span></span></span>Ice</button>
+    <button type="button" class="theme-option" data-theme="sakura" aria-pressed="false"><span class="theme-preview preview-sakura" aria-hidden="true"><span></span><span></span><span></span></span>Sakura</button>
+    <button type="button" class="theme-option" data-theme="neon" aria-pressed="false"><span class="theme-preview preview-neon" aria-hidden="true"><span></span><span></span><span></span></span>Neon</button>
+  </div>
+</dialog>
+
 <!-- theme modal -->
 <div th:fragment="themeModal">
     <div id="theme-modal" class="modal-overlay">

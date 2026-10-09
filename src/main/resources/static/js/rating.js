@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         const avg = await response.json();
         document.querySelector(".average-value span").textContent = avg;
+        const fill = Math.max(0, Math.min(5, Number(avg))) * 20;
+        document.getElementById("averageStars").style.setProperty("--rating-fill", `${fill}%`);
       }
     } catch (error) {
       console.error("Failed to load average rating:", error);
@@ -37,13 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
     star.addEventListener("click", function () {
       selectedRating = parseInt(this.dataset.value);
       ratingInput.value = selectedRating;
+      stars.forEach((item) => item.setAttribute("aria-pressed", String(item === this)));
       highlightStars(selectedRating, "active");
       ratingLabel.textContent =
         "You selected: " +
         selectedRating +
         " star" +
         (selectedRating > 1 ? "s" : "");
-      console.log(selectedRating);
     });
   });
 
@@ -72,8 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    console.log("selected rating: " + selectedRating);
-
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting...";
 
@@ -83,11 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
       points: selectedRating,
       ratedOn: new Date(),
     };
-
-    console.log("player: " + formData.player);
-    console.log("game: " + formData.game);
-    console.log("points: " + formData.points);
-    console.log("rated on: " + formData.ratedOn);
 
     try {
       const response = await fetch("/api/rating", {
@@ -117,7 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
   async function loadPlayerRating() {
     const game = document.getElementById("game")?.value;
     const player = document.getElementById("loggedPlayer")?.value;
-    console.log("player to be show rating for: " + player);
     if (!player) return;
 
     try {
@@ -132,15 +126,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const rating = await response.json();
         const yourRatingEl = document.querySelector(".your-rating");
         if (rating > 0) {
-          if (yourRatingEl) {
-            yourRatingEl.querySelector("span").textContent = rating;
-          } else {
-            const newEl = document.createElement("div");
-            newEl.className = "your-rating";
-            newEl.innerHTML =
-              "How " + player + "has rated: <span>" + rating + "</span> / 5";
-            document.querySelector(".rating-form").appendChild(newEl);
-          }
+          yourRatingEl.hidden = false;
+          yourRatingEl.querySelector("span").textContent = rating;
+          selectedRating = Number(rating);
+          ratingInput.value = selectedRating;
+          highlightStars(selectedRating, "active");
+          stars.forEach((star) => star.setAttribute("aria-pressed", String(Number(star.dataset.value) === selectedRating)));
+          ratingLabel.textContent = `Your rating: ${selectedRating} / 5`;
         }
       }
     } catch (error) {

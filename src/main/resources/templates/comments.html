@@ -1,93 +1,61 @@
 <!doctype html>
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  th:attr="data-theme=${theme}"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${theme}">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Comments</title>
-    <link th:href="@{/css/colors.css}" rel="stylesheet" />
-    <link th:href="@{/css/forms.css}" rel="stylesheet" />
-    <link th:href="@{/css/navbar.css}" rel="stylesheet" />
-    <link th:href="@{/css/modal.css}" rel="stylesheet" />
-    <link th:href="@{/css/comments.css}" rel="stylesheet" />
-    <script th:src="@{/js/comments.js}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Comments / Gridhunt</title>
+    <th:block th:replace="~{fragments :: gameAssets}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/comments.css}" />
+    <script defer th:src="@{/js/comments.js}"></script>
   </head>
-  <body>
-    <header th:replace="~{fragments :: header}"></header>
-
-    <main class="main-container">
-      <div class="container">
-        <h1>Comments</h1>
-
-        <div id="message" class="message hidden"></div>
-
-        <!-- Add Comment Form -->
-        <div class="comment-form">
-          <h2>Add a Comment</h2>
+  <body class="game-page">
+    <div th:replace="~{fragments :: gameBackground}"></div>
+    <header th:replace="~{fragments :: gameHeader}"></header>
+    <main class="page-main">
+      <div class="page-heading">
+        <p class="eyebrow">From the community / Comments</p>
+        <h1 class="page-title">FIELD<span class="accent">NOTES</span></h1>
+        <p class="page-description">Stories from the grid. Leave a tip, share a close call, or tell us what you think.</p>
+      </div>
+      <div id="message" class="message hidden" role="status" aria-live="polite"></div>
+      <div class="comments-layout">
+        <section class="surface comment-form" aria-labelledby="comment-form-title">
+          <div class="section-heading"><h2 id="comment-form-title">Leave a note</h2><span class="section-number">01</span></div>
           <form id="commentForm">
-            <input
-              type="hidden"
-              id="game"
-              name="game"
-              th:value="${session.gameName}"
-            />
+            <input type="hidden" id="game" name="game" th:value="${session.gameName != null ? session.gameName : 'Gridhunt'}" />
             <div class="form-group">
-              <label for="player">Your Name</label>
-              <input
-                th:if="${session.username == null}"
-                type="text"
-                id="player"
-                name="player"
-                required
-                placeholder="Enter your name"
-              />
-              <input
-                th:if="${session.username != null}"
-                type="text"
-                id="player"
-                name="player"
-                readonly
-                th:value="${session.username}"
-                th:placeholder="${session.username}"
-              />
+              <label for="player">Hunter name</label>
+              <input th:if="${session.username == null}" type="text" id="player" name="player" required maxlength="64" placeholder="Your name" autocomplete="nickname" />
+              <input th:if="${session.username != null}" type="text" id="player" name="player" readonly th:value="${session.username}" />
             </div>
             <div class="form-group">
-              <label for="comment">Comment</label>
-              <textarea
-                id="comment"
-                name="comment"
-                required
-                placeholder="Write your comment..."
-              ></textarea>
+              <label for="comment">Your comment</label>
+              <textarea id="comment" name="comment" required maxlength="350" placeholder="What happened on your hunt?"></textarea>
+              <p class="field-help">Up to 350 characters.</p>
             </div>
-            <button type="submit" class="submit-btn" id="submitBtn">
-              Post Comment
-            </button>
+            <button type="submit" class="submit-btn" id="submitBtn">Post comment</button>
           </form>
-        </div>
-
-        <!-- Comments List -->
-        <div class="comments-list" id="commentsList">
-          <div th:each="c : ${comments}" class="comment-card">
-            <div class="comment-header">
-              <span class="comment-player" th:text="${c.player}">Player</span>
-              <span
-                class="comment-date"
-                th:text="${#temporals.format(c.commentedOn, 'MMM dd, yyyy HH:mm')}"
-                >Date</span
-              >
+        </section>
+        <section class="notes-panel" aria-labelledby="comments-title">
+          <div class="section-heading"><h2 id="comments-title">From the grid</h2><span class="section-number">02</span></div>
+          <div class="comments-list" id="commentsList" aria-live="polite">
+            <article th:each="c : ${comments}" class="comment-card">
+              <div class="comment-header">
+                <span class="comment-player" th:text="${c.player}">Hunter</span>
+                <span class="comment-date" th:text="${c.commentedOn != null ? #dates.format(c.commentedOn, 'dd MMM yyyy, HH:mm') : '—'}">Date</span>
+              </div>
+              <p class="comment-text" th:text="${c.comment}">Comment text</p>
+            </article>
+            <div th:if="${#lists.isEmpty(comments)}" class="surface empty-state">
+              <span class="empty-crosshair" aria-hidden="true"></span>
+              <h2>A blank page. For now.</h2>
+              <span>No notes yet. Be the first to share your hunt.</span>
             </div>
-            <p class="comment-text" th:text="${c.comment}">Comment text</p>
           </div>
-
-          <div th:if="${#lists.isEmpty(comments)}" class="empty-state">
-            <p>No comments yet. Be the first to comment!</p>
-          </div>
-        </div>
+        </section>
       </div>
     </main>
+    <footer th:replace="~{fragments :: gameFooter}"></footer>
+    <dialog th:replace="~{fragments :: gameThemeModal}"></dialog>
   </body>
 </html>
