@@ -44,10 +44,8 @@
           maven
           mvnd
           spring-boot-cli
-          jetbrains.idea-oss
         ]
         ++ (with pkgs-unstable; [
-          jetbrains.idea-oss
           jdt-language-server
         ]);
 
