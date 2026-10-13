@@ -1,86 +1,60 @@
 <!doctype html>
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  th:attr="data-theme=${theme}"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${theme}">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register</title>
-    <link th:href="@{/css/colors.css}" rel="stylesheet" />
-    <link th:href="@{/css/forms.css}" rel="stylesheet" />
-    <link th:href="@{/css/navbar.css}" rel="stylesheet" />
-    <link th:href="@{/css/modal.css}" rel="stylesheet" />
-    <link th:href="@{/css/login.css}" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Register / Gridhunt</title>
+    <th:block th:replace="~{fragments :: gameAssets}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/auth.css}" />
   </head>
-  <body>
-    <header th:replace="~{fragments :: header}"></header>
+  <body class="game-page auth-page">
+    <div th:replace="~{fragments :: gameBackground}"></div>
+    <header th:replace="~{fragments :: gameHeader}"></header>
+    <main class="page-main auth-layout">
+      <div class="page-heading auth-intro">
+        <p class="eyebrow">Your first step / Register</p>
+        <h1 class="page-title">JOIN THE<br /><span class="accent">HUNT</span></h1>
+        <p class="page-description">Make your mark on the grid. Create an account to record your scores and share your stories.</p>
+        <a class="auth-back" th:href="@{/gridhunt}"><span aria-hidden="true">←</span> Back to the game</a>
+      </div>
 
-    <main class="main-container">
-      <div th:if="${session.username == null}">
-        <div id="authPrompt">
-          <form class="card" th:action="@{/register}" method="post">
-            <p class="signup">Register</p>
-            <div class="inputBox1">
-              <input type="text" name="username" required="required" />
-              <span>Username</span>
-            </div>
-            <div class="inputBox">
-              <input type="password" name="password" required="required" />
-              <span>Password</span>
-            </div>
-            <div class="inputBox">
-              <input
-                type="password"
-                name="repeatedPassword"
-                required="required"
-              />
-              <span>Repeat password</span>
-            </div>
-            <button class="enter" type="submit">Register</button>
-          </form>
-          <div th:if="${param.mismatch_password}">
-            <div class="error-msg">
-              <p>Entered passwords do not match</p>
-            </div>
-          </div>
-          <div th:if="${param.error}">
-            <div class="error-msg">
-              <p>There already exists a user with this username.</p>
-              <a href="/login">Log in?</a>
-            </div>
-          </div>
+      <section class="surface auth-panel" th:if="${session.username == null}" aria-labelledby="register-title">
+        <div class="section-heading"><h2 id="register-title">Create your account</h2><span class="section-number">01</span></div>
+        <div class="message error" role="alert" th:if="${param.mismatch_password != null}">
+          <p>Your passwords don't match. Please enter them again.</p>
         </div>
-      </div>
-      <div
-        th:if="${session.username != null}"
-        style="
-          display: flex;
-          color: white;
-          justify-content: center;
-          align-items: center;
-        "
-      >
-        <h1>
-          <p>
-            Already logged in as: <span th:text="${session.username}"> </span>
-          </p>
-          <p>
-            Please
-            <span
-              ><a style="color: var(--accent)" th:href="@{/logout}"
-                >log out</a
-              ></span
-            >
-            first
-          </p>
-        </h1>
-      </div>
+        <div class="message error" role="alert" th:if="${param.error != null}">
+          <p>That username is already taken. Choose another or <a th:href="@{/login}">log in</a>.</p>
+        </div>
+        <form th:action="@{/register}" method="post">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Choose a username" />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required autocomplete="new-password" placeholder="Choose a password" />
+          </div>
+          <div class="form-group">
+            <label for="repeatedPassword">Repeat password</label>
+            <input type="password" id="repeatedPassword" name="repeatedPassword" required autocomplete="new-password" placeholder="Enter your password again" />
+          </div>
+          <button class="button button-primary auth-submit" type="submit">Create account <span class="button-arrow" aria-hidden="true">→</span></button>
+        </form>
+        <p class="auth-switch">Already a hunter? <a th:href="@{/login}">Log in <span aria-hidden="true">↗</span></a></p>
+      </section>
+
+      <section class="surface auth-panel auth-session" th:if="${session.username != null}" aria-labelledby="session-title">
+        <p class="eyebrow">You're signed in</p>
+        <h2 id="session-title">Ready for your next hunt?</h2>
+        <p>Logged in as <strong th:text="${session.username}">Hunter</strong>. Head back to the grid, or sign out to create another account.</p>
+        <div class="dialog-actions">
+          <a class="button button-primary" th:href="@{/gridhunt}">Play now <span class="button-arrow" aria-hidden="true">→</span></a>
+          <a class="button" th:href="@{/logout}">Sign out</a>
+        </div>
+      </section>
     </main>
-
-    <footer th:replace="~{fragments :: footer}"></footer>
-
-    <div th:replace="~{fragments :: themeModal}"></div>
+    <footer th:replace="~{fragments :: gameFooter}"></footer>
+    <dialog th:replace="~{fragments :: gameThemeModal}"></dialog>
   </body>
 </html>

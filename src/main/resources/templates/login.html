@@ -1,77 +1,59 @@
 <!doctype html>
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  th:attr="data-theme=${theme}"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:attr="data-theme=${theme}">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <link th:href="@{/css/colors.css}" rel="stylesheet" />
-    <link th:href="@{/css/forms.css}" rel="stylesheet" />
-    <link th:href="@{/css/navbar.css}" rel="stylesheet" />
-    <link th:href="@{/css/modal.css}" rel="stylesheet" />
-    <link th:href="@{/css/login.css}" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Log in / Gridhunt</title>
+    <th:block th:replace="~{fragments :: gameAssets}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/auth.css}" />
   </head>
-  <body>
-    <header th:replace="~{fragments :: header}"></header>
+  <body class="game-page auth-page">
+    <div th:replace="~{fragments :: gameBackground}"></div>
+    <header th:replace="~{fragments :: gameHeader}"></header>
+    <main class="page-main auth-layout">
+      <div class="page-heading auth-intro">
+        <p class="eyebrow">Back to the grid / Log in</p>
+        <h1 class="page-title">WELCOME<br /><span class="accent">BACK</span></h1>
+        <p class="page-description">Your next hunt is waiting. Log in to keep your scores and join the conversation.</p>
+        <a class="auth-back" th:href="@{/gridhunt}"><span aria-hidden="true">←</span> Back to the game</a>
+      </div>
 
-    <main class="main-container">
-      <div th:if="${session.username == null}">
-        <div id="authPrompt">
-          <form class="card" th:action="@{/login}" method="post">
-            <p class="signup">Log in</p>
-            <div class="inputBox1">
-              <input type="text" name="username" required="required" />
-              <span>Username</span>
-            </div>
-            <div class="inputBox">
-              <input type="password" name="password" required="required" />
-              <span>Password</span>
-            </div>
-            <button class="enter" type="submit">Log in</button>
-          </form>
-          <span th:if="${param.wrong_password}">
-            <div class="error-msg">
-              wrong password
-              <a href="/change">Forgot password?</a>
-            </div>
-          </span>
-          <span th:if="${param.not_found}">
-            <div class="error-msg">
-              not found
-              <a href="/register">Register?</a>
-            </div>
-          </span>
+      <section class="surface auth-panel" th:if="${session.username == null}" aria-labelledby="login-title">
+        <div class="section-heading"><h2 id="login-title">Log in to your account</h2><span class="section-number">01</span></div>
+        <div class="message error" role="alert" th:if="${param.wrong_password != null}">
+          <p>Incorrect password. Please try again.</p>
+          <a th:href="@{/change}">Forgot your password?</a>
         </div>
-      </div>
-      <div
-        th:if="${session.username != null}"
-        style="
-          display: flex;
-          color: white;
-          justify-content: center;
-          align-items: center;
-        "
-      >
-        <h1>
-          <p>
-            Already logged in as: <span th:text="${session.username}"> </span>
-          </p>
-          <p>
-            Please
-            <span
-              ><a style="color: var(--accent)" th:href="@{/logout}"
-                >log out</a
-              ></span
-            >
-            first
-          </p>
-        </h1>
-      </div>
+        <div class="message error" role="alert" th:if="${param.not_found != null}">
+          <p>No account found with that username.</p>
+          <a th:href="@{/register}">Create an account</a>
+        </div>
+        <form th:action="@{/login}" method="post">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Your username" />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Your password" />
+          </div>
+          <p class="auth-recovery"><a th:href="@{/change}">Forgot your password?</a></p>
+          <button class="button button-primary auth-submit" type="submit">Log in <span class="button-arrow" aria-hidden="true">→</span></button>
+        </form>
+        <p class="auth-switch">New to the grid? <a th:href="@{/register}">Create an account <span aria-hidden="true">↗</span></a></p>
+      </section>
+
+      <section class="surface auth-panel auth-session" th:if="${session.username != null}" aria-labelledby="session-title">
+        <p class="eyebrow">You're signed in</p>
+        <h2 id="session-title">Ready for your next hunt?</h2>
+        <p>Logged in as <strong th:text="${session.username}">Hunter</strong>. Head back to the grid, or sign out to use another account.</p>
+        <div class="dialog-actions">
+          <a class="button button-primary" th:href="@{/gridhunt}">Play now <span class="button-arrow" aria-hidden="true">→</span></a>
+          <a class="button" th:href="@{/logout}">Sign out</a>
+        </div>
+      </section>
     </main>
-    <footer th:replace="~{fragments :: footer}"></footer>
-    <div th:replace="~{fragments :: themeModal}"></div>
+    <footer th:replace="~{fragments :: gameFooter}"></footer>
+    <dialog th:replace="~{fragments :: gameThemeModal}"></dialog>
   </body>
 </html>
